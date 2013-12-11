@@ -7,7 +7,7 @@ Usage
 -----
 
 ```html
-<githubissues src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
+<githubissues src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching"/>
 ```
 
 The base URL must be of the format `https://github.com/{user}/{repo}/issues`. Any of
@@ -19,14 +19,14 @@ be rendered in place of the tag. You can set the header level for the titles wit
 the `header` attribute (the default is h3). For example:
 
 ```html
-<githubissues header="h2" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
+<githubissues header="h2" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching"/>
 ```
 
 You can specify how long you would like to cache the list from Github by specifying the 
 number of hours in the `cache` attribute. The default is 2 hours.
 
 ```html
-<githubissues cache="12" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
+<githubissues cache="12" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching"/>
 ```
 
 

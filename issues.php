@@ -36,9 +36,8 @@ function embedGithubIssues($input, $args) {
 				$cacheHours = $args['cache'];
 			}
 			
-			$cacheFile = dirname(__FILE__).'/cache/'.md5($args['src']) . '.html';
+			$cacheFile = dirname(__FILE__).'/cache/'.md5(implode($args)) . '.html';
 			if(file_exists($cacheFile) && filemtime($cacheFile) >= (time() - (60*60*$cacheHours))) {
-				echo "(cached)";
 				echo file_get_contents($cacheFile);
 			} else {
 				$ch = curl_init();
