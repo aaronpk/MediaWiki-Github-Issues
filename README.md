@@ -22,6 +22,14 @@ the `header` attribute (the default is h3). For example:
 <githubissues header="h2" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
 ```
 
+You can specify how long you would like to cache the list from Github by specifying the 
+number of hours in the `cache` attribute. The default is 2 hours.
+
+```html
+<githubissues cache="12" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
+```
+
+
 
 License
 -------
