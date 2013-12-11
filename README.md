@@ -10,6 +10,19 @@ Usage
 <githubissues src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
 ```
 
+The base URL must be of the format `https://github.com/{user}/{repo}/issues`. Any of
+the filters on the [issues list API endpoint](http://developer.github.com/v3/issues/#list-issues-for-a-repository) 
+are accepted in the query string. 
+
+When the page is rendered, the titles and description of all referenced issues will
+be rendered in place of the tag. You can set the header level for the titles with 
+the `header` attribute (the default is h3). For example:
+
+```html
+<githubissues header="h2" src="https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching">
+```
+
+
 License
 -------
 
