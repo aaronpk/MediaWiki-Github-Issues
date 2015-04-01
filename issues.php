@@ -1,7 +1,20 @@
 <?php
+
+/**
+ * Options:
+ *
+ * $wgGithubIssuesShowComments
+ *           - whether or not to show comments in issue list
+ *         Default is true
+ */
+
+
+
+
 require_once(dirname(__FILE__).'/php-markdown/Michelf/MarkdownExtra.inc.php');
 use \Michelf\MarkdownExtra;
 
+$wgGithubIssuesShowComments = true;
 $wgExtensionFunctions[] = "wikiGithubIssues";
 $wgExtensionCredits['parserhook'][] = array(
         'name' => 'Github Issues',
@@ -11,15 +24,15 @@ $wgExtensionCredits['parserhook'][] = array(
 );
 
 function wikiGithubIssues() {
-    global $wgParser;    
+    global $wgParser;
     $wgParser->setHook("githubissues", "embedGithubIssues");
 }
 
 function embedGithubIssues($input, $args) {
 	global $wgParser;
-	
+
 	$wgParser->disableCache();
-	
+
 	ob_start();
 
 	if(!array_key_exists('src', $args)) {
@@ -30,12 +43,12 @@ function embedGithubIssues($input, $args) {
 			$username = $match[1];
 			$repo = $match[2];
 			$query = $match[3];
-			
+
 			$cacheHours = 2;
 			if(array_key_exists('cache', $args)) {
 				$cacheHours = $args['cache'];
 			}
-			
+
 			$cacheFile = dirname(__FILE__).'/cache/'.md5(implode($args)) . '.html';
 			if(file_exists($cacheFile) && filemtime($cacheFile) >= (time() - (60*60*$cacheHours))) {
 				echo file_get_contents($cacheFile);
@@ -53,19 +66,19 @@ function embedGithubIssues($input, $args) {
 						if(array_key_exists('header', $args)) {
 							$headerTag = $args['header'];
 						}
-						
+
 						$html = '';
 						foreach($issues as $issue) {
 							$html .= '<'.$headerTag.'><a href="' . $issue->html_url . '">' . $issue->title . '</a></'.$headerTag.'>';
 							$body = MarkdownExtra::defaultTransform($issue->body);
 							$html .= '<p>' . $body . '</p>';
-							if($issue->comments) {
+							if($wgGithubIssuesShowComments && $issue->comments) {
 								$html .= '<p><a href="' . $issue->html_url . '">';
 								$html .= $issue->comments . ' comment' . ($issue->comments == 1 ? '' : 's');
 								$html .= '</a></p>';
 							}
 						}
-					
+
 						file_put_contents($cacheFile, $html);
 						echo $html;
 					} else {
@@ -81,8 +94,8 @@ function embedGithubIssues($input, $args) {
 		} else {
 			echo 'Error! src must be a URL like the following: https://github.com/aaronpk/p3k/issues?labels=priority%3Aitching';
 		}
-		
+
 	}
-	
+
 	return array(ob_get_clean(), 'noparse' => true, 'isHTML' => true);
 }
